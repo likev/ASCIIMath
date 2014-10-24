@@ -1,83 +1,185 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ASCIIMath 在线编辑器</title>
+<style type="text/css" media="screen">
+	.cls{
+		clear:both;
+	}
+	
+	#tools li{
+		font-size:2em;
+		list-style-type:none;
+		float:left;
+		margin-right:20px;
+	}
+	
+	#tools .short{
+		font-size:0.6em;
+	}
+	
+	#container{
+		position: relative;
+		width:100%;
+		clear:both;
+		height:500px;
+		margin:30px 0 0 0;
+	}
+    #editor { 
+        float:left;
+        width:50%;
+        height:100%;
+    }
+	#display { 
+		float:left;
+        width:50%;
+        height:100%;
+		font-size:1.5em;
+    }
+</style>
+</head>
+<body>
+<div id='tools'>
+<h2>括号内字符为快捷键，比如A表示Ctrl+A即可快速输入 α，Shift+D表示用Ctrl+Shift+D快速输入Δ。也可点击字符插入。</h2>
+		<div>
+		<h3>常用字符: </h3>
+		<ul id='letters'>
+		<!-- <li>`alpha`<span class='short'>(A)</span></li> <li>`beta`<span class='short'>(B)</span></li> <li>`chi`<span class='short'>(C)</span></li> <li>`delta`<span class='short'>(D)</span></li>
+		-->
+		</ul><div class='cls' /> </div>
+		
+		<div>
+		<h3>常用操作符号 </h3>
+		<ul id='symbols'>
+		<!-- <li>`sqrtx`<span class='short'>(S)</span></li> <li>`root3x`<span class='short'>(R)</span></li> -->
+		</ul><div class='cls' /></div>
+</div>
+<div id='container'>
+<h2>在下面编辑，右边可实时显示公式</h2>
+<div id="editor">
+	x = (-b +- sqrt(b^2-4ac))/(2a) .
+</div>
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<div id='display'>
+`x = (-b +- sqrt(b^2-4ac))/(2a) .`
+</div>
+</div>
 
-    <title>Asciimath by likev</title>
-  </head>
+<script src="http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/ace/1.1.3/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js?config=AM_HTMLorMML-full"></script>
+<script>
+	$('#editor').css({'font-size':'16px'} );
+	
+    var editor = ace.edit("editor");
+//    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/latex");
+	
+	editor.getSession().on('change', function(e) {
+		//$('#display').html(editor.getValue() );
+		var math = MathJax.Hub.getAllJax("display")[0];
+		MathJax.Hub.Queue(["Text",math, editor.getValue()]);
+	}); 
 
-  <body>
-    <header>
-      <div class="inner">
-        <h1>Asciimath</h1>
-        <h2>ASCIIMath语法在线编辑数学公式</h2>
-        <a href="https://github.com/likev/ASCIIMath" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+	var lettersConfig=[['A', 'alpha'],
+['B', 'beta'],
+['C', 'chi'],
+['D', 'delta'],
+['Shift+D', 'Delta'],
+['E', 'epsilon'],
+['V', 'varepsilon'],
+['Shift+E', 'eta'],
+['G', 'gamma'],
+['Shift+G', 'Gamma'],
+['I', 'iota'],
+['K', 'kappa'],
+['L', 'lambda'],
+['Shift+L', 'Lambda'],
+['M', 'mu'],
+['N', 'nu'],
+['O', 'omega'],
+['Shift+O', 'Omega'],
+['','phi'],
+['Shift+V', 'varphi'],
+['','Phi'],
+['P', 'pi'],
+['Shift+P', 'Pi'],
+['','psi'],
+['','Psi'],
+['', 'rho'],
+['', 'sigma'],
+['Shift+S', 'Sigma'],
+['T', 'tau'],
+['Shift+T', 'theta'],
+['V', 'vartheta'],
+['','Theta'],
+['U', 'upsilon'],
+['X', 'xi'],
+['Shift+X', 'Xi'],
+['Z', 'zeta'] ];
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+	var symbolsConfig = [
+		['S','sqrtx'],
+		['R','root3x'],
+		['','int'],
+		['','oint'],
+		['','del'],
+		['','grad'],
+		['','oo'],
+		['','aleph'],
+		['','sum'],
+		['','prod'],
+		['','xx'],
+		['','in'],
+		['','!in'],
+		['','sub'],
+		['','sup'],
+		['','sube'],
+		['','supe'],
+		['','-='],
+		['','~='],
+		['','~~'],
+		['','prop'],
+		['','hat x'],
+		['','bar x'],
+		['','ul x'],['','vec x'],['','dot x'],['','ddot x'],['','AA'],['','EE'],
+	];
+	
+	var applyConfig = function(id, config){
+		$.each(config, function(index,value){
+			var key = value[0], val = value[1];
+			
+			var letter = "<li title='"+val+"'>`"+val+"`";
+			if( key ){
+				letter += "<span class='short'>("+key+")</span>";
+				
+				editor.commands.addCommand({
+					name: 'myCommand'+ key,
+					bindKey: {win: 'Ctrl+'+key,  mac: 'Command+'+key},
+					exec: function(editor) {
+						//...
+						editor.insert(val);
+					},
+					readOnly: true // false if this command should not apply in readOnly mode
+				}); 
+			}
+			
+			letter += "</li>";
+			
+			$(id).append(letter);
+		});
+	}
+	
+	applyConfig('#letters',lettersConfig);
+	applyConfig('#symbols',symbolsConfig);
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/likev/ASCIIMath/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/likev/ASCIIMath/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/likev/ASCIIMath"></a> is maintained by <a href="https://github.com/likev">likev</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
-
-  
-  </body>
+	setTimeout(function(){editor.focus();editor.gotoLine(2,33);}, 1000);
+	$('#tools ul').on('click','li',function (e) {
+		editor.insert( $(this).attr('title') );
+		editor.focus();
+	})
+</script>
+</body>
 </html>
