@@ -1,7 +1,7 @@
 ASCIIMath
 =========
 
-使用ASCIIMath语法在线编辑数学公式
+使用ASCIIMath语法在线编辑数学公式 http://likev.github.io/ASCIIMath/
 
 ![使用ASCIIMath语法在线编辑数学公式](/asciimath-editor.jpg)
 
